@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#153e35"><meta name="description" content="هدوء — Prototype bilingue pour expérimenter la régulation du bruit en classe.">
+  <title>هدوء — HODOU2</title><style>/*__STYLE__*/</style>
+</head>
+<body>
+<svg class="svg-defs" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"><defs>
+ <symbol id="i-wave" viewBox="0 0 24 24"><path d="M4 10v4m4-8v12m4-16v20m4-16v12m4-8v4"/></symbol>
+ <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/></symbol>
+ <symbol id="i-pause" viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></symbol>
+ <symbol id="i-play" viewBox="0 0 24 24"><path d="m8 5 11 7-11 7Z"/></symbol>
+ <symbol id="i-stop" viewBox="0 0 24 24"><rect x="6" y="6" width="12" height="12" rx="2"/></symbol>
+ <symbol id="i-alert" viewBox="0 0 24 24"><path d="M12 7v6m0 4v.1M10.3 3.8 2.5 18a2 2 0 0 0 1.7 3h15.6a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0Z"/></symbol>
+ <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="13" rx="3"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v3m-4 0h8"/></symbol>
+ <symbol id="i-expand" viewBox="0 0 24 24"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m8 0h5v-5"/></symbol>
+ <symbol id="i-close" viewBox="0 0 24 24"><path d="m6 6 12 12M6 18 18 6"/></symbol>
+ <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12m-4-4 4 4 4-4M5 15v5h14v-5"/></symbol>
+ <symbol id="i-shield" viewBox="0 0 24 24"><path d="m12 2 8 4v6c0 5-8 10-8 10S4 17 4 12V6Z"/><path d="m8 12 3 3 5-6"/></symbol>
+ <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></symbol>
+ <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+</defs></svg>
+<header class="app-header">
+ <a class="brand" href="#" aria-label="هدوء HODOU2"><span class="brand-mark"><svg class="icon"><use href="#i-wave"/></svg></span><span><strong data-i18n="title">هدوء</strong><small data-i18n="tagline">حوار مفيد. صوت مناسب.</small></span></a>
+ <nav class="tabs" role="tablist" aria-label="التنقل الرئيسي" data-aria-i18n="navigation">
+  <button id="tab-live" role="tab" aria-selected="true" aria-controls="view-live" class="tab active" data-view="live" data-i18n="live">التجربة</button>
+  <button id="tab-history" role="tab" aria-selected="false" aria-controls="view-history" class="tab" data-view="history"><span data-i18n="history">السجل والنتائج</span><span id="recordCount" class="count">0</span></button>
+  <button id="tab-about" role="tab" aria-selected="false" aria-controls="view-about" class="tab" data-view="about" data-i18n="about">المشروع</button>
+ </nav>
+ <button id="languageButton" class="language" data-i18n="language">Français</button>
+</header>
+<main>
+ <section id="view-live" class="view" role="tabpanel" aria-labelledby="tab-live">
+  <div class="page-heading"><div><span class="eyebrow" data-i18n="prototype">نموذج تجريبي · DigiSchool</span><h1 data-i18n="lab">مختبر هدوء</h1><p data-i18n="intro">لنجد مستوى الصوت المناسب لنشاطنا.</p></div><button id="presentationButton" class="button subtle"><svg class="icon"><use href="#i-expand"/></svg><span data-i18n="presentation">عرض للقسم</span></button></div>
+  <div class="workspace">
+   <div class="monitor-column">
+    <section class="monitor-card" aria-label="HODOU2">
+     <div class="monitor-top"><span id="sourceBadge" class="pill demo"><i></i><span data-i18n="demoBadge">بيانات توضيحية</span></span><span class="tiny-label" id="activityCaption"></span></div>
+     <div class="session-controls"><button id="startButton" class="button primary"><svg class="icon"><use href="#i-play"/></svg><span data-i18n="start">ابدأ الجلسة</span></button><button id="pauseButton" class="button secondary" hidden><svg class="icon"><use href="#i-pause"/></svg><span data-i18n="pause">توقف للأستاذ</span></button><button id="stopButton" class="button outline" hidden><svg class="icon"><use href="#i-stop"/></svg><span data-i18n="stop">إنهاء وحفظ</span></button><button id="cancelStartButton" class="button outline" hidden data-i18n="cancel">إلغاء</button></div>
+     <div class="device" id="device" data-signal="idle">
+      <div class="device-head"><span class="device-name" dir="ltr">HODOU2<span>CLASSROOM COMPANION</span></span><span class="mic-grille" aria-hidden="true"></span></div>
+      <div class="device-screen">
+       <div class="screen-top"><span id="screenSource" data-i18n="relative">مؤشر صوت نسبي</span><span class="power-dot" id="powerDot"></span></div>
+       <div class="signal-orb" id="signalOrb"><svg class="signal-icon"><use id="stateIcon" href="#i-wave"/></svg><div class="level"><span id="levelValue">—</span><small id="unitLabel" data-i18n="unit">من 100</small></div></div>
+       <div class="signal-copy" aria-live="polite"><h2 id="signalTitle" data-i18n="ready">جاهز للتجربة</h2><p id="signalHelp" data-i18n="readyHelp">اختر الإعدادات، ثم ابدأ جلستك.</p></div>
+       <div class="delay-track" aria-hidden="true"><span id="delayProgress"></span></div><div id="delayLabel" class="delay-label">&nbsp;</div>
+      </div>
+      <div class="device-foot"><div class="traffic-lights" aria-hidden="true"><i class="light green"></i><i class="light amber"></i><i class="light red"></i></div><button id="devicePause" class="device-pause" disabled data-aria-i18n="pause"><svg class="icon"><use href="#i-pause"/></svg></button><span class="device-number" dir="ltr">01 / PROTOTYPE</span></div>
+     </div>
+     <p id="feedbackCaption" class="feedback-caption"></p>
+    </section>
+    <section class="live-stats" aria-label="Session"><div><span data-i18n="elapsed">وقت النشاط</span><strong id="elapsedValue" dir="ltr">00:00</strong><small id="remainingValue"></small></div><div><span data-i18n="over">زمن تجاوز الحد</span><strong id="overValue" dir="ltr">—</strong><small id="overPercent">—</small></div><div><span data-i18n="alerts">تنبيهات مستمرة</span><strong id="alertValue">—</strong><small id="alertDetail"></small></div></section>
+    <div class="reminder-row"><div><svg class="icon"><use href="#i-plus"/></svg><span data-i18n="reminders">طلبات خفض الصوت</span><strong id="reminderCount">0</strong></div><button id="reminderButton" class="button small outline" disabled data-i18n="reminderButton">سجّل طلب خفض الصوت</button></div>
+   </div>
+   <aside class="settings-column">
+    <section class="settings-card">
+     <div class="settings-heading"><h2 data-i18n="sessionSettings">إعدادات الجلسة</h2><p data-i18n="sessionSettingsHelp">اضبطها قبل بدء النشاط.</p></div>
+     <fieldset id="settingsFieldset">
+      <legend class="sr-only" data-i18n="advanced">ضبط التجربة</legend>
+      <h2 data-i18n="activity">1 · طبيعة النشاط</h2>
+      <div class="segmented"><label><input type="radio" name="activity" value="individual"><span data-i18n="individual">عمل فردي</span></label><label><input type="radio" name="activity" value="group" checked><span data-i18n="group">عمل جماعي</span></label></div>
+      <p class="field-help" data-i18n="activityHelp">يُختار الحد مع الأستاذ بعد التجريب.</p>
+      <h2 data-i18n="source">2 · مصدر الصوت</h2>
+      <div class="source-options"><label><input type="radio" name="source" value="demo" checked><span><svg class="icon"><use href="#i-play"/></svg><b data-i18n="demo">محاكاة</b></span></label><label><input type="radio" name="source" value="mic"><span><svg class="icon"><use href="#i-mic"/></svg><b data-i18n="mic">ميكروفون</b></span></label></div>
+      <p class="field-help" data-i18n="sourceHelp">المحاكاة للتوضيح. الميكروفون لتجربتك الفعلية.</p>
+      <div class="range-heading"><label for="thresholdInput" data-i18n="threshold">الحد المقبول</label><output id="thresholdOutput" for="thresholdInput">62 / 100</output></div><input id="thresholdInput" type="range" min="15" max="90" value="62" step="1">
+      <div class="duration-row"><label for="durationInput" data-i18n="duration">مدة الجلسة</label><div><select id="durationInput"><option value="60">1</option><option value="300">5</option><option value="600" selected>10</option><option value="1200">20</option></select><span data-i18n="minutes">دقائق</span></div></div>
+      <label class="switch-row"><span><b data-i18n="feedback">تفعيل الإشارة البصرية</b><small data-i18n="feedbackHelp">أوقفها لفترة الرصد، مع تثبيت بقية الإعدادات.</small></span><input id="feedbackInput" type="checkbox" checked role="switch"></label>
+      <details class="advanced"><summary data-i18n="advanced">ضبط التجربة</summary><div class="range-heading"><label for="delayInput" data-i18n="delay">مهلة التنبيه</label><output id="delayOutput">3 s</output></div><input id="delayInput" type="range" min="1" max="8" step="1" value="3"><div class="range-heading"><label for="gainInput" data-i18n="sensitivity">حساسية الميكروفون</label><output id="gainOutput">1.0×</output></div><input id="gainInput" type="range" min="0.4" max="3" step="0.1" value="1"></details>
+     </fieldset>
+     <p id="lockedNote" class="locked-note" hidden data-i18n="locked">الإعدادات ثابتة طوال الجلسة.</p>
+    </section>
+    <section id="demoCard" class="demo-card"><div class="card-heading"><h2 data-i18n="demoTitle">تحكم في المحاكاة</h2><span class="demo-dot"></span></div><div class="demo-presets"><button data-level="22" data-i18n="quiet">هادئ</button><button data-level="55" data-i18n="chatter">نقاش</button><button data-level="88" data-i18n="loud">ضجيج مرتفع</button></div><div class="range-heading"><label for="demoInput" data-i18n="demoLevel">مستوى المحاكاة</label><output id="demoOutput">22</output></div><input id="demoInput" type="range" min="0" max="100" value="22"><label class="auto-row"><input id="autoInput" type="checkbox" checked><span data-i18n="auto">سيناريو تلقائي</span></label><p class="field-help" data-i18n="demoHelp">ارفع الصوت لأكثر من ثلاث ثوانٍ ولاحظ الإشارة.</p></section>
+    <section class="trace-card"><div class="card-heading"><h2 data-i18n="trace">حركة الصوت</h2><span data-i18n="lastSeconds">آخر 30 ثانية</span></div><svg id="traceChart" viewBox="0 0 360 100" role="img" data-aria-i18n="trace"><path class="chart-grid" d="M0 20H360M0 50H360M0 80H360"/><path id="thresholdPath" class="threshold-path" d="M0 38H360"/><path id="traceFill" class="trace-fill" d=""/><path id="tracePath" class="trace-path" d=""/></svg><p class="measurement-note" data-i18n="measurement">مؤشر نسبي يُضبط بالتجربة، وليس قياسًا معايرًا بالديسيبل.</p></section>
+   </aside>
+  </div>
+ </section>
+ <section id="view-history" class="view" role="tabpanel" aria-labelledby="tab-history" hidden>
+  <div class="page-heading"><div><span class="eyebrow" data-i18n="history">السجل والنتائج</span><h1 data-i18n="historyTitle">نتائج قابلة للملاحظة</h1><p data-i18n="historyIntro">ملخصات محفوظة على هذا المتصفح. لا تُحفظ ملفات صوتية.</p></div><div class="heading-actions"><button id="exportButton" class="button secondary"><svg class="icon"><use href="#i-download"/></svg><span data-i18n="export">تنزيل CSV</span></button><button id="clearButton" class="button subtle danger" data-i18n="clear">مسح السجل</button></div></div>
+  <section class="comparison-card"><span class="eyebrow" data-i18n="comparison">مقارنة الفترات الفعلية</span><div id="comparisonBody"></div></section>
+  <div id="emptyHistory" class="empty-state"><span class="empty-icon"><svg class="icon"><use href="#i-clock"/></svg></span><h2 data-i18n="emptyTitle">هنا تبدأ الأدلة</h2><p data-i18n="emptyText">أنهِ جلسة لعرض مدتها ووقت تجاوز الحد وطلبات خفض الصوت.</p><button id="tryDemoButton" class="button primary" data-i18n="tryDemo">ابدأ تجربة توضيحية</button></div>
+  <div id="historyTableWrap" class="table-wrap" hidden><table><thead><tr><th data-i18n="record">الجلسة</th><th data-i18n="type">المصدر</th><th data-i18n="condition">الإشارة</th><th data-i18n="time">المدة</th><th data-i18n="percentage">تجاوز الحد</th><th data-i18n="reminders">طلبات خفض الصوت</th></tr></thead><tbody id="historyRows"></tbody></table></div>
+ </section>
+ <section id="view-about" class="view" role="tabpanel" aria-labelledby="tab-about" hidden>
+  <div class="about-hero"><span class="eyebrow" data-i18n="prototype">نموذج تجريبي · DigiSchool</span><h1 data-i18n="aboutTitle">فكرة صغيرة، وتجربة واضحة.</h1><p data-i18n="aboutIntro">«هدوء» نموذج برمجي يجسد منطق جهاز يساعد التلاميذ على تنظيم الصوت أثناء النشاط.</p><blockquote data-i18n="question">كيف نتبادل الأفكار بمستوى صوت مناسب ونقلل المقاطعات؟</blockquote></div>
+  <h2 class="section-heading" data-i18n="how">كيف يعمل؟</h2><div class="explanation-grid"><article><span>01</span><h3 data-i18n="step1">نلتقط مستوى الصوت</h3><p data-i18n="step1Help">حساس الميكروفون يعطي مؤشرًا نسبيًا فقط.</p></article><article><span>02</span><h3 data-i18n="step2">ننتظر استمرار التجاوز</h3><p data-i18n="step2Help">تُستبعد الأصوات العابرة بمهلة قابلة للضبط.</p></article><article><span>03</span><h3 data-i18n="step3">نعرض إشارة مفهومة</h3><p data-i18n="step3Help">لون ورمز ورسالة، مع زر توقف أثناء الشرح.</p></article></div>
+  <h2 class="section-heading" data-i18n="team">ثلاثة تلاميذ، مشروع واحد</h2><div class="explanation-grid roles"><article><h3 data-i18n="role1">الرصد والتجريب</h3><p data-i18n="role1Help">الملاحظة والمقابلات والقياسات.</p></article><article><h3 data-i18n="role2">البرمجة والضبط</h3><p data-i18n="role2Help">منطق الإشارة والحساس والعتبات.</p></article><article><h3 data-i18n="role3">التصميم والعرض</h3><p data-i18n="role3Help">صندوق الجهاز والرموز وتقديم النتائج.</p></article></div>
+  <div class="about-details"><article><h3 data-i18n="protocol">تجربة مقترحة للفريق</h3><p data-i18n="protocolText"></p></article><article><h3 data-i18n="limits">ما الذي نقيسه؟</h3><p data-i18n="limitsText"></p></article><article><h3 data-i18n="hardware">نحو النموذج المادي</h3><p data-i18n="hardwareText"></p></article></div>
+  <div class="offline-card"><div><h3 data-i18n="offline">تنزيل نسخة مستقلة</h3><p data-i18n="offlineHelp"></p></div><a class="button secondary" href="./hodou2.html" download="HODOU2-prototype.html"><svg class="icon"><use href="#i-download"/></svg><span data-i18n="offline">تنزيل نسخة مستقلة</span></a></div>
+ </section>
+ <footer class="app-footer"><span><svg class="icon"><use href="#i-shield"/></svg><span data-i18n="privacy">معالجة على جهازك · دون تسجيل المحادثات</span></span><small dir="ltr">HODOU2 · DigiSchool</small></footer>
+</main>
+<button id="exitPresentation" class="button projector-exit" hidden><svg class="icon"><use href="#i-close"/></svg><span data-i18n="exitPresentation">الخروج من وضع العرض</span></button>
+<div id="toast" class="toast" role="status" hidden></div>
+<dialog id="clearDialog"><h2 data-i18n="clearTitle">مسح الجلسات المحفوظة؟</h2><p data-i18n="clearText"></p><div><button id="cancelClearButton" class="button outline" data-i18n="cancel">إلغاء</button><button id="confirmClearButton" class="button destructive" data-i18n="clearConfirm">مسح الجلسات</button></div></dialog>
+<script type="module">/*__SCRIPT__*/</script>
+</body></html>
